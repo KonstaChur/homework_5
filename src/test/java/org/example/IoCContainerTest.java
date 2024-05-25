@@ -19,6 +19,8 @@ public class IoCContainerTest {
 
     private IoCContainer container;
     private Map<String, Object> scope;
+    String hello1;
+    String hello2;
 
     @Before
     public void setUp() {
@@ -107,16 +109,18 @@ public class IoCContainerTest {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         executorService.submit(() -> {
-            String hello = container.resolve("hello");
-            assertEquals("Hello", hello);
+            hello1 = container.resolve("hello");
+            assertEquals("Hello", hello1);
         });
 
         executorService.submit(() -> {
-            String hello = container.resolve("hello");
-            assertEquals("Hello", hello);
+            hello2 = container.resolve("hello");
+            assertEquals("Hello", hello2);
         });
 
         executorService.shutdown();
         executorService.awaitTermination(1, TimeUnit.SECONDS);
+
+        assertEquals(hello1, hello2);
     }
 }
