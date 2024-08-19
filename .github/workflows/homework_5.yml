@@ -19,6 +19,11 @@ jobs:
         java-version: '17'
         distribution: 'oracle'
         cache: maven
+    - name: Upload code coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: target/site/jacoco
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Test
